@@ -21,7 +21,13 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "apollo-angular": "^1.0.1",
+    "apollo-angular-link-http": "^1.0.2-beta.0",
+    "apollo-cache-inmemory": "^1.1.7",
+    "apollo-client": "^2.2.3",
     "core-js": "^2.4.1",
+    "graphql": "^0.13.0",
+    "graphql-tag": "^2.7.3",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+    production: true,
+    graphQlUrl: 'https://graphql.kiwi.com/'
 };
