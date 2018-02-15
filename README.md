@@ -7,8 +7,8 @@ Tools: Angular 5, Apollo GraphQL, NgBootstrap
 
 ## Demo
 
-Demo is available on Google Firebase storage
-https://kiwi-grahql.firebaseapp.com/
+Demo is deployed and available on Google Firebase
+https://kiwi-angular-graphql.firebaseapp.com/
 
 ## Development server
 
