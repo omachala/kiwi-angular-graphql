@@ -20,6 +20,7 @@ export class KiwiClientService {
     }
 
     public searchFlights(params: FlightsSearch) {
+        this.loadingSubject.next(true);
 
         const allFlights = new AllFlights();
         allFlights.__args = params;
@@ -35,7 +36,7 @@ export class KiwiClientService {
         })
             .valueChanges
             .subscribe(({data, loading}) => {
-                this.loadingSubject.next(loading);
+                this.loadingSubject.next(false);
                 const results = data['allFlights']['edges'].map(item => <Flight>item.node);
                 this.flightsResultSubject.next(results);
             });

@@ -1,11 +1,31 @@
-<p *ngIf="loading">
-    loading ...
-</p>
+<form [formGroup]="form"
+      (ngSubmit)="onSubmit(form)"
+      [class.error]="(!form.valid && form.dirty)">
 
-<ul>
-    <li *ngFor="let flight of results">
-        {{ flight.departure.time }} -
-        {{ flight.departure.airport.name }} - {{ flight.arrival.airport.name }} - {{ flight.price.amount }} - {{
-        flight.price.currency }}
-    </li>
-</ul>
+    <div class="form-row">
+        <div class="col">
+            <input [formControl]="form.controls['flightFrom']"
+                   type="text"
+                   class="form-control"
+                   placeholder="From">
+        </div>
+        <div class="col">
+            <input [formControl]="form.controls['flightTo']"
+                   type="text"
+                   class="form-control"
+                   placeholder="To">
+        </div>
+        <div class="col">
+            <input [formControl]="form.controls['flightDate']"
+                   type="date"
+                   class="form-control" placeholder="Zip">
+        </div>
+        <div class="col">
+            <button [disabled]="!form.valid"
+                    type="submit"
+                    class="btn btn-primary mb-2">
+                {{ loading ? 'Searching ...' : 'Search' }}
+            </button>
+        </div>
+    </div>
+</form>

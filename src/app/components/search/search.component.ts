@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {KiwiClientService} from '../../service/kiwi-client.service';
 import {FlightsSearch} from '../../class/Search';
-import {Flight} from '../../class/Flight';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-search',
@@ -11,25 +11,28 @@ import {Flight} from '../../class/Flight';
 export class SearchComponent implements OnInit {
 
     loading = false;
-    results: Array<Flight> = [];
+    flightsSearch: FlightsSearch = new FlightsSearch();
+    form: FormGroup;
 
-    constructor(private client: KiwiClientService) {
+    constructor(private client: KiwiClientService, private formBuilder: FormBuilder) {
+        const currentDate = new Date();
+
+        this.form = this.formBuilder.group({
+            flightFrom: ['', Validators.compose([Validators.required])],
+            flightTo: ['', Validators.compose([Validators.required])],
+            flightDate: [currentDate.toISOString().substring(0, 10), Validators.compose([Validators.required])],
+        });
+    }
+
+    onSubmit(formGroup: FormGroup) {
+        this.flightsSearch.search.from.location = formGroup.controls['flightFrom'].value;
+        this.flightsSearch.search.to.location = formGroup.controls['flightTo'].value;
+        this.flightsSearch.search.date.exact = formGroup.controls['flightDate'].value;
+        this.client.searchFlights(this.flightsSearch);
     }
 
     ngOnInit() {
-
-        this.client.flightsResultSubject.subscribe((results: Array<Flight>) => this.results = results);
         this.client.loadingSubject.subscribe((loading: boolean) => this.loading = loading);
-
-        const queryParams = new FlightsSearch();
-        queryParams.search.from.location = 'Prague';
-        queryParams.search.to.location = 'London';
-        queryParams.search.date.exact = '2018-03-01';
-        queryParams.search.date.exact = '2018-03-05';
-
-        this.client.searchFlights(queryParams);
-
-
     }
 
 }

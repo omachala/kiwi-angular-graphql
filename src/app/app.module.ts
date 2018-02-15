@@ -6,15 +6,20 @@ import {HttpClientModule} from '@angular/common/http';
 import {KiwiGraphQLModule} from './kiwi-graphql/kiwi-graphql.module';
 import {SearchComponent} from './components/search/search.component';
 import {KiwiClientService} from './service/kiwi-client.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ResultsComponent} from './components/results/results.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        SearchComponent
+        SearchComponent,
+        ResultsComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
         KiwiGraphQLModule,
     ],
     providers: [
