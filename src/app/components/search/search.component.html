@@ -1,3 +1,11 @@
-<p>
-  search works!
+<p *ngIf="loading">
+    loading ...
 </p>
+
+<ul>
+    <li *ngFor="let flight of results">
+        {{ flight.departure.time }} -
+        {{ flight.departure.airport.name }} - {{ flight.arrival.airport.name }} - {{ flight.price.amount }} - {{
+        flight.price.currency }}
+    </li>
+</ul>

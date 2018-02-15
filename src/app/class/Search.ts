@@ -2,7 +2,7 @@ import {FlightsSearchInput} from './FlightsSearchInput';
 import {FlightsOptionsInput} from './FlightsOptionsInput';
 import {FlightsFiltersInput} from './FlightsFiltersInput';
 
-export class Search {
+export class FlightsSearch {
 
     search: FlightsSearchInput = new FlightsSearchInput();
     options: FlightsOptionsInput = new FlightsOptionsInput();
