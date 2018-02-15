@@ -30,8 +30,6 @@ export class KiwiClientService {
         const q = new Query(new AllFlightsQuery(allFlights));
         const gqlQuery = gql(jsonToGraphQLQuery(q));
 
-        console.log(jsonToGraphQLQuery(q));
-
         this.apollo.watchQuery({
             query: gqlQuery,
             variables: {},
@@ -39,7 +37,6 @@ export class KiwiClientService {
             .valueChanges
             .subscribe(({data, loading}) => {
                 this.loadingSubject.next(false);
-                console.log(data);
                 const results = data['allFlights']['edges'].map(item => <Flight>item.node);
                 this.flightsResultSubject.next(results);
             });
@@ -51,8 +48,6 @@ export class KiwiClientService {
         allLocations.__args = params;
         const q = new Query(new AllLocationsQuery(allLocations));
         const gqlQuery = gql(jsonToGraphQLQuery(q));
-
-        console.log(jsonToGraphQLQuery(q));
 
         return this.apollo.watchQuery({
             query: gqlQuery,
