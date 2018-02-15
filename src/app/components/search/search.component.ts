@@ -17,32 +17,13 @@ import {LocationsSearch} from '../../class/LocationsSearch';
 
 export class SearchComponent implements OnInit {
 
-    dateModel;
+    now = new Date();
+    dateModel = {year: this.now.getFullYear(), month: this.now.getMonth() + 1, day: this.now.getDate()};
+    minDate = Object.assign({}, this.dateModel);
+
     loading = false;
     flightsSearch: FlightsSearch = new FlightsSearch();
     form: FormGroup;
-
-    constructor(private client: KiwiClientService, private formBuilder: FormBuilder) {
-        const currentDate = new Date();
-
-        this.form = this.formBuilder.group({
-            flightFrom: ['', Validators.compose([Validators.required])],
-            flightTo: ['', Validators.compose([Validators.required])],
-            flightDate: [currentDate.toISOString().substring(0, 10), Validators.compose([Validators.required])],
-        });
-    }
-
-    onSubmit(formGroup: FormGroup) {
-        this.flightsSearch.search.from.location = formGroup.controls['flightFrom'].value;
-        this.flightsSearch.search.to.location = formGroup.controls['flightTo'].value;
-        this.flightsSearch.search.date.exact = formGroup.controls['flightDate'].value;
-        this.client.searchFlights(this.flightsSearch);
-    }
-
-    ngOnInit() {
-        this.client.loadingSubject.subscribe((loading: boolean) => this.loading = loading);
-    }
-
     search = (text$: Observable<string>) =>
         text$
             .debounceTime(200)
@@ -58,5 +39,28 @@ export class SearchComponent implements OnInit {
                     return data['data']['allLocations']['edges'].map(item => item.node.name);
                 });
             });
+
+    constructor(private client: KiwiClientService, private formBuilder: FormBuilder) {
+        const currentDate = new Date();
+
+        this.form = this.formBuilder.group({
+            flightFrom: ['', Validators.compose([Validators.required])],
+            flightTo: ['', Validators.compose([Validators.required])],
+            flightDate: ['', Validators.compose([Validators.required])],
+        });
+    }
+
+    onSubmit(formGroup: FormGroup) {
+        const dateValue = formGroup.controls['flightDate'].value;
+        const dateObject = new Date(dateValue.year, this.dateModel.month - 1, this.dateModel.day + 1);
+        this.flightsSearch.search.from.location = formGroup.controls['flightFrom'].value;
+        this.flightsSearch.search.to.location = formGroup.controls['flightTo'].value;
+        this.flightsSearch.search.date.exact = dateObject.toISOString().substring(0, 10);
+        this.client.searchFlights(this.flightsSearch);
+    }
+
+    ngOnInit() {
+        this.client.loadingSubject.subscribe((loading: boolean) => this.loading = loading);
+    }
 
 }

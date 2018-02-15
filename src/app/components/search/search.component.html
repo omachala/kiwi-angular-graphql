@@ -20,13 +20,15 @@
         <div class="col">
             <div class="form-group">
                 <div class="input-group">
-                    <input [formControl]="form.controls['flightDate']"
+                    <input #d="ngbDatepicker"
+                           [formControl]="form.controls['flightDate']"
+                           (focus)="d.open()"
                            class="form-control"
                            placeholder="yyyy-mm-dd"
                            name="dp"
                            [(ngModel)]="dateModel"
                            ngbDatepicker
-                           #d="ngbDatepicker">
+                           [minDate]="minDate">
 
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
