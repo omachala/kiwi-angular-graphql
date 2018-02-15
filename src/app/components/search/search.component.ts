@@ -1,13 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {KiwiClientService} from '../../service/kiwi-client.service';
-import {FlightsSearch} from '../../class/Search';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FlightsSearch} from '../../class/FlightsSearch';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import {LocationsSearch} from '../../class/LocationsSearch';
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css']
 })
+
 export class SearchComponent implements OnInit {
 
     loading = false;
@@ -34,5 +41,21 @@ export class SearchComponent implements OnInit {
     ngOnInit() {
         this.client.loadingSubject.subscribe((loading: boolean) => this.loading = loading);
     }
+
+    search = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200)
+            .distinctUntilChanged()
+            .switchMap(term => {
+                if (term.length < 2) {
+                    return [];
+                }
+
+                const params = new LocationsSearch();
+                params.search = term;
+                return this.client.searchLocations(params).valueChanges.map(data => {
+                    return data['data']['allLocations']['edges'].map(item => item.node.name);
+                });
+            });
 
 }

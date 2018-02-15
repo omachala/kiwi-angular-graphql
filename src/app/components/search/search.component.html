@@ -4,13 +4,15 @@
 
     <div class="form-row">
         <div class="col">
-            <input [formControl]="form.controls['flightFrom']"
+            <input [ngbTypeahead]="search"
+                   [formControl]="form.controls['flightFrom']"
                    type="text"
                    class="form-control"
                    placeholder="From">
         </div>
         <div class="col">
-            <input [formControl]="form.controls['flightTo']"
+            <input [ngbTypeahead]="search"
+                   [formControl]="form.controls['flightTo']"
                    type="text"
                    class="form-control"
                    placeholder="To">

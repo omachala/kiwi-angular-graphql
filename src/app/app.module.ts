@@ -8,12 +8,13 @@ import {SearchComponent} from './components/search/search.component';
 import {KiwiClientService} from './service/kiwi-client.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ResultsComponent} from './components/results/results.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
         AppComponent,
         SearchComponent,
-        ResultsComponent
+        ResultsComponent,
     ],
     imports: [
         BrowserModule,
@@ -21,6 +22,7 @@ import {ResultsComponent} from './components/results/results.component';
         FormsModule,
         ReactiveFormsModule,
         KiwiGraphQLModule,
+        NgbModule.forRoot()
     ],
     providers: [
         KiwiClientService
