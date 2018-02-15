@@ -17,6 +17,7 @@ import {LocationsSearch} from '../../class/LocationsSearch';
 
 export class SearchComponent implements OnInit {
 
+    dateModel;
     loading = false;
     flightsSearch: FlightsSearch = new FlightsSearch();
     form: FormGroup;
