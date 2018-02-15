@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-12">
+        <ngb-alert *ngIf="found===0" [type]="'danger'" [dismissible]="false">Found 0 results.</ngb-alert>
+    </div>
+</div>
+
+<div *ngIf="found!==null" class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Airlines</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let flight of pagedResults">
+                <td><a [href]="flight.bookingUrl" target="_new">{{ flight.departure.time | date:'MMM d, H:mm' }}</a>
+                </td>
+                <td>{{ flight.price.amount }} {{ flight.price.currency }}</td>
+                <td>{{ flight.departure.airport.name }}</td>
+                <td>{{ flight.arrival.airport.name }}</td>
+                <td>
+                    <span *ngFor="let airline of flight.airlines"
+                          [style.margin.px]="5"
+                          class="badge badge-secondary">
+                        {{ airline.name }}
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12">
+        <ngb-pagination [collectionSize]="results.length"
+                        (pageChange)="pageChange($event)"
+                        [pageSize]="perPage"
+                        [maxSize]="10"
+                        [(page)]="currentPage">
+        </ngb-pagination>
+    </div>
+</div>
+
+

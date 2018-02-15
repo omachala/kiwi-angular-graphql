@@ -1,0 +1,50 @@
+<form [formGroup]="form"
+      (ngSubmit)="onSubmit(form)"
+      [class.error]="(!form.valid && form.dirty)">
+
+    <div class="form-row">
+        <div class="col">
+            <input [ngbTypeahead]="search"
+                   [formControl]="form.controls['flightFrom']"
+                   type="text"
+                   class="form-control"
+                   placeholder="From">
+        </div>
+        <div class="col">
+            <input [ngbTypeahead]="search"
+                   [formControl]="form.controls['flightTo']"
+                   type="text"
+                   class="form-control"
+                   placeholder="To">
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <input #d="ngbDatepicker"
+                           [formControl]="form.controls['flightDate']"
+                           (focus)="d.open()"
+                           class="form-control"
+                           placeholder="yyyy-mm-dd"
+                           name="dp"
+                           [(ngModel)]="dateModel"
+                           ngbDatepicker
+                           [minDate]="minDate">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <img src="https://ng-bootstrap.github.io/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <button [disabled]="!form.valid"
+                    type="submit"
+                    class="btn btn-primary mb-2">
+                {{ loading ? 'Searching ...' : 'Search' }}
+            </button>
+        </div>
+    </div>
+</form>
